@@ -167,7 +167,9 @@ router.post(
       .then(profile => {
         const newCourse = {
           courseName: req.body.courseName,
-          courseProfessor: req.body.courseProfessor
+          courseProfessor: req.body.courseProfessor,
+          section: req.body.section,
+          term: req.body.term
         };
 
         //add to course array

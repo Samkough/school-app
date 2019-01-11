@@ -18,13 +18,12 @@ const ProfileSchema = new Schema({
   bio: {
     type: String
   },
-
   major: {
     type: String,
     required: true
   },
   yearOfGrad: {
-    type: String,
+    type: Number,
     required: true
   },
   courses: [
@@ -33,7 +32,14 @@ const ProfileSchema = new Schema({
         type: String,
         required: true
       },
+      section: {
+        type: ["number", "string"]
+      },
       courseProfessor: {
+        type: String,
+        required: true
+      },
+      term: {
         type: String,
         required: true
       }
