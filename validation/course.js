@@ -5,9 +5,7 @@ module.exports = function validateClubInputs(data) {
   let errors = {};
 
   data.courseName = !isEmpty(data.courseName) ? data.courseName : "";
-  data.courseProfessor = !isEmpty(data.courseProfessor)
-    ? data.courseProfessor
-    : "";
+  data.courseProfessor = !isEmpty(data.courseProfessor) ? data.courseProfessor : "";
   data.term = !isEmpty(data.term) ? data.term : "";
 
   //validate course name
@@ -23,8 +21,7 @@ module.exports = function validateClubInputs(data) {
     errors.courseProfessor = "Course Professor cannot be empty";
   }
   if (!Validator.isLength(data.courseProfessor, { min: 2, max: 50 })) {
-    errors.courseProfessor =
-      "Course Professor needs to be between 2 and 50 characters";
+    errors.courseProfessor = "Course Professor needs to be between 2 and 50 characters";
   }
 
   //validate term
@@ -42,10 +39,7 @@ module.exports = function validateClubInputs(data) {
    * it is between 1 and 3 characters for the cases when sections
    * include letters
    */
-  if (
-    typeof data.section === "number" &&
-    (data.section < 0 || data.section > 10)
-  ) {
+  if (typeof data.section === "number" && (data.section < 0 || data.section > 10)) {
     errors.section = "Invalid section";
   } else if (!Validator.isLength(data.term, { min: 1, max: 3 })) {
     errors.term = "Term needs to be between 1 and 3 characters";
