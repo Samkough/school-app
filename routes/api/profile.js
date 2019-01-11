@@ -5,6 +5,9 @@ const passport = require("passport");
 
 //Load validation
 const validateProfileInput = require("../../validation/profile");
+const validateCourseInput = require("../../validation/course");
+const validateClubInput = require("../../validation/club");
+const validateMembershipInput = require("../../validation/membership");
 
 //Load profile model
 const Profile = require("../../models/Profile");
@@ -147,6 +150,176 @@ router.post(
   }
 );
 
+//  @route  POST api/profile/courses
+//  @desc   Add student courses
+//  @access Private
+router.post(
+  "/courses",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateCourseInput(req.body);
+    //check validation
+    if (!isValid) {
+      //return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const newCourse = {
+          courseName: req.body.courseName,
+          courseProfessor: req.body.courseProfessor
+        };
+
+        //add to course array
+        profile.courses.unshift(newCourse);
+        profile
+          .save()
+          .then(profile => res.json(profile))
+          .catch(err => res.json(err));
+      })
+      .catch(err => res.json(err));
+  }
+);
+
+//  @route  DELETE api/profile/courses/:course_id
+//  @desc   Remove student course
+//  @access Private
+router.delete(
+  "/courses/:course_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        //get remove index
+        const removeIndex = profile.courses
+          .map(item => item.id)
+          .indexOf(req.params.course_id);
+
+        //splice out of array
+        profile.courses.splice(removeIndex, 1);
+
+        //save
+        profile.save().then(profile => {
+          res.json(profile);
+        });
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+//  @route  POST api/profile/clubs
+//  @desc   Add student club
+//  @access Private
+
+router.post(
+  "/clubs",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateClubInput(req.body);
+    //check validation
+    if (!isValid) {
+      //return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const newClub = {
+          clubName: req.body.clubName
+        };
+
+        //add to course array
+        profile.clubs.unshift(newClub);
+        profile
+          .save()
+          .then(profile => res.json(profile))
+          .catch(err => res.json(err));
+      })
+      .catch(err => res.json(err));
+  }
+);
+
+//  @route  DELETE api/profile/clubs/:club_id
+//  @desc   Remove student club
+//  @access Private
+router.delete(
+  "/clubs/:club_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        //get remove index
+        const removeIndex = profile.clubs
+          .map(item => item.id)
+          .indexOf(req.params.club_id);
+
+        //splice out of array
+        profile.clubs.splice(removeIndex, 1);
+
+        //save
+        profile.save().then(profile => {
+          res.json(profile);
+        });
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+//  @route  POST api/profile/memberships
+//  @desc   Add student membership
+//  @access Private
+
+router.post(
+  "/memberships",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateMembershipInput(req.body);
+    //check validation
+    if (!isValid) {
+      //return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const newMem = {
+          membershipName: req.body.membershipName
+        };
+
+        //add to course array
+        profile.memberships.unshift(newMem);
+        profile
+          .save()
+          .then(profile => res.json(profile))
+          .catch(err => res.json(err));
+      })
+      .catch(err => res.json(err));
+  }
+);
+
+//  @route  POST api/profile/memberships/:mem_id
+//  @desc   Remove student membership
+//  @access Private
+router.delete(
+  "/memberships/:membership_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        //get remove index
+        const removeIndex = profile.memberships
+          .map(item => item.id)
+          .indexOf(req.params.membership_id);
+
+        //splice out of array
+        profile.memberships.splice(removeIndex, 1);
+
+        //save
+        profile.save().then(profile => {
+          res.json(profile);
+        });
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
 //  @route  DELETE api/profile/
 //  @desc   Delete user and profile
 //  @access Private
