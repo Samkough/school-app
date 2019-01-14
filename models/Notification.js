@@ -17,7 +17,7 @@ const NotificationSchema = new Schema({
   status: String,
   time: {
     type: Date,
-    default: Datse.now
+    default: Date.now
   },
   type: String
 });
