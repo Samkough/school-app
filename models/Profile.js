@@ -45,14 +45,6 @@ const ProfileSchema = new Schema({
       }
     }
   ],
-  friends: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "users"
-      }
-    }
-  ],
   clubs: [
     {
       clubName: {

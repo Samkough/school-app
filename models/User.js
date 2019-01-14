@@ -18,6 +18,14 @@ const UserSchema = new Schema({
   avatar: {
     type: String
   },
+  friends: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now
