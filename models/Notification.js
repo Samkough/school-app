@@ -6,18 +6,20 @@ const NotificationSchema = new Schema({
     type: String,
     required: true
   },
-  author: {
+  from: {
     type: Schema.Types.ObjectId,
     ref: "user"
   },
-  author: {
+  to: {
     type: Schema.Types.ObjectId,
     ref: "user"
   },
+  status: String,
   time: {
     type: Date,
-    default: Date.now
-  }
+    default: Datse.now
+  },
+  type: String
 });
 
 module.exports = Notification = mongoose.model("notification", NotificationSchema);

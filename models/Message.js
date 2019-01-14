@@ -12,7 +12,11 @@ const MessageSchema = new Schema(
       type: String,
       required: true
     },
-    author: {
+    from: {
+      type: Schema.Types.ObjectId,
+      ref: "user"
+    },
+    to: {
       type: Schema.Types.ObjectId,
       ref: "user"
     },
